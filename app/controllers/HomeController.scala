@@ -49,7 +49,7 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
       r.hmset("stats", Map(key -> 0))
       r.disconnect
 
-      Redirect(routes.HomeController.index()).flashing("info" -> "URL added!")
+      Redirect(routes.HomeController.index()).flashing("info" -> s"URL http://localhost:9000/goto/$key added!")
     }
 
     val formValidationResult = urlForm.bindFromRequest

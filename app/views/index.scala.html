@@ -3,6 +3,10 @@
 @main("URL Shortener") {
   <h1>Welcome to URL Shortener</h1>
 
+  @request.flash.data.map{ case (name, value) =>
+    <div class="@name">@value</div>
+  }
+
   @helper.form(action = routes.HomeController.add()) {
     @helper.CSRF.formField
     @helper.inputText(form("url"))
