@@ -55,6 +55,14 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
     val formValidationResult = urlForm.bindFromRequest
     formValidationResult.fold(errorFunction, successFunction)
   }
+
+  def goto(key: String) = Action {implicit request =>
+    val r = new RedisClient("localhost", 6379)
+    val url =  r.hmget("urls", key)
+    println(url.get(key))
+
+    Redirect(url.get(key))
+  }
 }
 
 case class URLData(url: String)
