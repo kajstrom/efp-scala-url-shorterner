@@ -59,7 +59,12 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
   def goto(key: String) = Action {implicit request =>
     val r = new RedisClient("localhost", 6379)
     val url =  r.hmget("urls", key)
-    println(url.get(key))
+    val stats = r.hmget("stats", key).get
+    val viewCount = stats(key).toInt + 1
+    r.hmset("stats", Map(key -> viewCount))
+
+    r.disconnect
+    println(url.get(key), viewCount)
 
     Redirect(url.get(key))
   }
