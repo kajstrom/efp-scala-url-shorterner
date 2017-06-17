@@ -1,5 +1,11 @@
-@()
+@(form: Form[URLData])(implicit request: RequestHeader, messages: Messages)
 
-@main("Welcome to Play") {
-  <h1>Welcome to Play!</h1>
+@main("URL Shortener") {
+  <h1>Welcome to URL Shortener</h1>
+
+  @helper.form(action = routes.HomeController.add()) {
+    @helper.CSRF.formField
+    @helper.inputText(form("url"))
+    <button type="submit">Add</button>
+  }
 }
