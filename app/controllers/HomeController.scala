@@ -45,7 +45,8 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
       println(key)
 
       val r = new RedisClient("localhost", 6379)
-      r.hmset("todo", Map(key -> data.url))
+      r.hmset("urls", Map(key -> data.url))
+      r.hmset("stats", Map(key -> 0))
       r.disconnect
 
       Redirect(routes.HomeController.index()).flashing("info" -> "URL added!")
