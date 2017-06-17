@@ -68,6 +68,15 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
 
     Redirect(url.get(key))
   }
+
+  def stats(key: String) = Action {implicit request =>
+    val r = new RedisClient("localhost", 6379)
+    val url =  r.hmget("urls", key).get(key)
+    val visits = r.hmget("stats", key).get(key).toInt
+    r.disconnect
+
+    Ok(views.html.stats(key, visits, url))
+  }
 }
 
 case class URLData(url: String)
